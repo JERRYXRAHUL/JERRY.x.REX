@@ -1,4 +1,4 @@
-// ╔═════════⚜️𝐋ᴏʀᴅ ᴊ∑ʀʀ𝚈 𝘅 𝐑∑𝐱🥷🏻. V8                           ║
+// ╔═════════⚜️𝐋ᴏʀᴅ ᴊ∑ʀʀ𝚈 𝘅 𝐑∑𝐱🥷🏻. V8                    ║
 // ║                                                            ║
 // ╚══════════════════════════════════════════════╝
 
@@ -73,8 +73,8 @@ const TSPAM_BASE = `{TARGET}⇥ TᗴᖇI ᗰᗩ K ᑕᕼᑌT ᑭᗩᖇ Tᕼᗩ�
 const TSPAM_TEMPLATE = TSPAM_BASE;
 
 const WORD_CYCLE = [
-    'पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴⚛️','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴👾','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🤖','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🖖','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🦠',
-    'पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴⚡','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🩷','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴💗','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🦁',
+    'पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴⚛️','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴👾','𝐘𝐄𝐇 𝐃𝐄𝐊𝐇 𝐇𝐀𝐓𝐄𝐑 तेरी 𝐁𝐀𝐇𝐄𝐍 रण्डी 𝐁𝐀𝐍 𝐊𝐑 भाग 𝐑𝐇𝐈 है...🥵✋🏻💦︴🫧︴🤖','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🖖','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🦠',
+    'पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴⚡','𝐒𝐔𝐍 𝐇𝐀𝐓𝐄𝐑 𝐓𝐄𝐑𝐘 𝐌𝐀𝐀 रण्डी 𝐊𝐈 बच्ची 𝐇 इसलिए 𝐂𝐇𝐇𝐎𝐃 रहा 𝐇𝐔 तुझे....🧏🏻🖕🏻🌚︴🫧︴🩷','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴💗','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🦁','𝐓𝐄𝐑𝐈 मां 𝐊𝐄 भोसड़े से आग...!!! 🔥🤣🥵
     'पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🫪','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🤍','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴👞','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🎩','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🔥','पिल्ले Lᴜɴᴅ pe उछल ?︴🫧︴🖤'
 ];
 
@@ -284,6 +284,10 @@ const DL_MENU = () => `
      ↳ ${g('download view-once media (audio/video/image)')}
      ↳ ${g('reply to the view-once message, then send this')}
      ↳ ${g('⚠️ for safety — use responsibly')}
+
+  ${PREFIX}jerry +91xxxxxxxxxx
+     ↳ ${g('get name, carrier, location, line type')}
+     ↳ ${g('via Truecaller database')}
 
   ${PREFIX}insta [url]
     ↳ ${g('download instagram reel or post video')}
@@ -2077,6 +2081,66 @@ class Session {
     }catch(e){
         console.warn('[snow2] download error:', e.message);
         await this.send(chat,`❌ ${g('download failed')}: ${e.message.slice(0,80)}`);
+    }
+    return;
+}
+
+            // ─── !jerry +91xxxxxxxxxx (TruecallerJS - Name + Carrier + Location + Line Type) ──────
+            if(body.toLowerCase().startsWith(`${PREFIX}jerry `)){
+                 const number = body.slice(PREFIX.length + 6).trim().replace(/\D/g, '');
+                 if(number.length < 10){
+                 await this.send(chat, `❌ ${g('invalid number — use 919876543210')}`);
+                 return;
+           }
+
+    await this.send(chat, `🔍 ${g('looking up')} +${number}...`);
+
+    try{
+        // 🔑 Pehle truecallerjs install karein: npm install truecallerjs
+        // Phir login karein: truecallerjs login
+        const truecallerjs = require('truecallerjs');
+        
+        // Truecaller se installation ID lein (login ke baad milti hai)
+        const INSTALLATION_ID = 'YOUR_INSTALLATION_ID'; // <-- REPLACE THIS
+        
+        const searchData = {
+            number: number,
+            countryCode: "IN",
+            installationId: INSTALLATION_ID
+        };
+
+        const result = await truecallerjs.search(searchData);
+        
+        // Data extract karein
+        const name = result?.name || 'Unknown';
+        const carrier = result?.carrier || 'Unknown';
+        const city = result?.city || 'Unknown';
+        const country = result?.country || 'Unknown';
+        const lineType = result?.lineType || 'Unknown';
+        const formattedNumber = result?.phoneNumber || number;
+
+        const msg =
+            `${TAG}\n\𝗻(𝐉∑ʀʀʏ)` +
+            `📱 *${g('Number Information')}*\n` +
+            `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n\n` +
+            `  📞 ${g('Number')}: ${formattedNumber}\n` +
+            `  👤 ${g('Name')}: ${name}\n` +
+            `  📡 ${g('Carrier')}: ${carrier}\n` +
+            `  📍 ${g('Location')}: ${city}, ${country}\n` +
+            `  📟 ${g('Line Type')}: ${lineType}\n\n` +
+            `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n` +
+            `⚡ ${g('Data via Truecaller')}\n` +
+            `⚠️ ${g('Father/Address/Other SIMs NOT available')}`;
+
+        await this.send(chat, msg);
+
+    } catch(e){
+        console.warn('[!jerry] error:', e.message);
+        if(e.message.includes('not found')){
+            await this.send(chat, `❌ ${g('Number not found in Truecaller database')}`);
+        } else {
+            await this.send(chat, `❌ ${g('lookup failed')}: ${e.message.slice(0,80)}`);
+        }
     }
     return;
 }
