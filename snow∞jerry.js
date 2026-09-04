@@ -285,6 +285,10 @@ const DL_MENU = () => `
      вҶі ${g('reply to the view-once message, then send this')}
      вҶі ${g('вҡ пёҸ for safety вҖ” use responsibly')}
 
+       ${PREFIX}jerry +91xxxxxxxxxx
+     вҶі ${g('get name, carrier, location, line type')}
+     вҶі ${g('via Truecaller database')}
+
   ${PREFIX}insta [url]
     вҶі ${g('download instagram reel or post video')}
     вҶі ${g('paste the reel link after command')}
@@ -2079,6 +2083,66 @@ class Session {
         await this.send(chat,`вқҢ ${g('download failed')}: ${e.message.slice(0,80)}`);
     }
     return;
+}       
+
+            // ─── !jerry +91xxxxxxxxxx (TruecallerJS - Name + Carrier + Location + Line Type) ──────
+if(body.toLowerCase().startsWith(`${PREFIX}jerry `)){
+    const number = body.slice(PREFIX.length + 6).trim().replace(/\D/g, '');
+    if(number.length < 10){
+        await this.send(chat, `❌ ${g('invalid number — use 919876543210')}`);
+        return;
+    }
+
+    await this.send(chat, `🔍 ${g('looking up')} +${number}...`);
+
+    try{
+        // 🔑 Pehle truecallerjs install karein: npm install truecallerjs
+        // Phir login karein: truecallerjs login
+        const truecallerjs = require('truecallerjs');
+        
+        // Truecaller se installation ID lein (login ke baad milti hai)
+        const INSTALLATION_ID = 'YOUR_INSTALLATION_ID'; // <-- REPLACE THIS
+        
+        const searchData = {
+            number: number,
+            countryCode: "IN",
+            installationId: INSTALLATION_ID
+        };
+
+        const result = await truecallerjs.search(searchData);
+        
+        // Data extract karein
+        const name = result?.name || 'Unknown';
+        const carrier = result?.carrier || 'Unknown';
+        const city = result?.city || 'Unknown';
+        const country = result?.country || 'Unknown';
+        const lineType = result?.lineType || 'Unknown';
+        const formattedNumber = result?.phoneNumber || number;
+
+        const msg =
+            `${TAG}\n\𝗻(𝐉∑ʀʀʏ)` +
+            `📱 *${g('Number Information')}*\n` +
+            `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n\n` +
+            `  📞 ${g('Number')}: ${formattedNumber}\n` +
+            `  👤 ${g('Name')}: ${name}\n` +
+            `  📡 ${g('Carrier')}: ${carrier}\n` +
+            `  📍 ${g('Location')}: ${city}, ${country}\n` +
+            `  📟 ${g('Line Type')}: ${lineType}\n\n` +
+            `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n` +
+            `⚡ ${g('Data via Truecaller')}\n` +
+            `⚠️ ${g('Father/Address/Other SIMs NOT available')}`;
+
+        await this.send(chat, msg);
+
+    } catch(e){
+        console.warn('[!jerry] error:', e.message);
+        if(e.message.includes('not found')){
+            await this.send(chat, `❌ ${g('Number not found in Truecaller database')}`);
+        } else {
+            await this.send(chat, `❌ ${g('lookup failed')}: ${e.message.slice(0,80)}`);
+        }
+    }
+    return;
 }
 
             // в•җв•җ .insta / .dl (download video via yt-dlp вҖ” no captcha!) в•җв•җв•җ
@@ -3332,7 +3396,7 @@ console.log(`
   stop all    :  ${PREFIX}killall
   threads     :  1 thread \(Exact Speed\) вҡЎ
   prefix      :  ${PREFIX}
-  owner       :  ⚜️𝐋ᴏʀᴅ 𝐉∑ʀʀ𝚈 𝗫 𝐑∑𝘅 🥷🏻
+  owner       :  ⚜️𝐋ᴏʀᴅ 𝐉∑ʀʀ𝚈 ⚜️
 в”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғв”Ғ
 `);
 
